@@ -74,7 +74,7 @@ $('#card').click(async function () {
 	let x = new test();
 	let answ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	let questions = x.generate();
-	$('#nav').text("<span id=\"num\">1</span>/10");
+	$('#nav').html("<span id=\"num\">1</span>/10");
 	let qn = 0;
 	$('#cardTxt').text(questions[qn].eng);
 	$('#num').text(qn+1);
