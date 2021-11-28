@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Language learning</title>
-	<script type="text/javascript" src="jquery-3.6.0.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<style type="text/css">
 		body {
 			font-family: Georgia;
@@ -56,8 +56,8 @@
 	<div id="card"><br><br><div id="cardTxt">Начать тест</div><br><br></div>
 	<div id="nav"></div>
 	<div id="field"><form><input type="text" name="word" size="30" id="txt"><button id="next" type="button">OK</button></form></div>
-	<table id="stats"><tr><td id="true">Вiрно:<br><span id="t"></span></td><td id="invisible">this is space, is not it?</td>
-	<td id="false">Невiрно:<br><span id="f"></span></td></tr></table>
+	<table id="stats"><tr><td id="true">Вiрно:<br><span id="t">0</span></td><td id="invisible">this is space, is not it?</td>
+	<td id="false">Невiрно:<br><span id="f">0</span></td></tr></table>
 </div>
 </body>
 <script type="text/javascript">
@@ -68,7 +68,7 @@ function translation (ukr, eng) {
 	this.check = function (ukrTxt) {
 		let isRight = false;
 			for (let word of ukr) {
-		 		if (ukrTxt == word) {
+		 		if (word == ukrTxt) {
 		 			isRight = true;
 				}
 			}
@@ -133,50 +133,53 @@ var rArr = document.createElement('span');
 lArr.innerHTML = '⇠';
 rArr.innerHTML = '⇢';
 
-$('#card').click(function () {
+$('#card').click(async function () {
 	let x = new test();
+	let answ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	let questions = x.generate();
-	console.log(questions);
 	$('#nav').append(lArr, '  <span id="num">1</span>/10  ', rArr);
 	$(lArr).css('color', 'gray');
 	let qn = 0;
-	while (qn <10) {
-		$('#cardTxt').text(questions[qn].eng);
-		$('#num').text(qn);
-		if (qn>0) {
+	$('#cardTxt').text(questions[qn].eng);
+	$('#num').text(qn+1);
+	$('#next').click(function () {
+		let w = $('#txt').val().toString();
+		w = w.replace(/^\s+(.*)\s+$/uig, '$1');
+		answ[qn] = Number(questions[qn].check(w));
+		tp = answ.reduce((a, b) => a + b, 0);
+		$('#t').text(tp);
+		fp = qn - tp + 1;
+		$('#f').text(fp);
+		if (qn > 0) {
+			console.log(qn);
 			$(lArr).css('color', 'black');
 			$(lArr).click(function () {
 				qn--;
+				$('#cardTxt').text(questions[qn].eng);
+				$('#num').text(qn+1);
+				$("#txt").val('');
 			});
 		}
 
-		if (qn<10) {
+		if (qn < 10) {
 			$(rArr).css('color', 'black');
+			qn++;
+			$('#cardTxt').text(questions[qn].eng);
+			$('#num').text(qn+1);
+			$("#txt").val('');
 			$(rArr).click(function () {
 				qn++;
+				$('#cardTxt').text(questions[qn].eng);
+				$('#num').text(qn+1);
+				$("#txt").val('');
 			});
 		}
 		else {
 			$(rArr).css('color', 'gray');
+			//вывести модальное окно
 		}
-
-		$('#next').click(function () {
-			let w = $(this).val().toString();
-			w = w.replace(/^\s+(.*)\s+$/uig, $1);
-			let a = questions[qn].check(w);
-			if (a) {
-				let tp = $('#t').text().Number();
-				tp++;
-				$('#t').text(tp);
-			}
-			else {
-				let fp = $('#f').text().Number();
-				fp++;
-				$('#f').text(tp);
-
-			}
-		});
-	}
+	});
 });
+
 </script>
 </html>
