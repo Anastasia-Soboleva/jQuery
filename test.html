@@ -177,9 +177,12 @@ function test (lvl) {
 }
 
 $('#card').click(function () {
+	$('#modal').hide();
 	let lvl = $("input[type=radio][name=dif]:checked").val();
 	console.log(lvl);
 	let x = new test(lvl);
+	$('#t').text('0');
+	$('#f').text('0');
 	let answ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	let questions = x.generate();
 	$('#nav').html('<span id="num">1</span>/10');
@@ -199,7 +202,6 @@ $('#card').click(function () {
 			let string =
 			$('#cardTxt').html('<br>' + questions[qn].eng + '<br><br>');
 			$('#num').text(qn+1);
-			$("#txt").val('');
 			}
 			else {
 				$('#cardTxt').html('Difficulty level:<br><div id="difficulty"><form id="choose_d" align="left"><input type="radio" name="dif" id="d0" value="0" class="d"><label for="d0">Easy</label><br><input type="radio" name="dif" id="d1" value="1" class="d" checked><label for="d1">Medium</label><br><input type="radio" name="dif" id="d2" value="2" class="d"><label for="d2">Hard</label></form>');
@@ -221,7 +223,10 @@ $('#card').click(function () {
 				}
 				$('#modal').show();
 				qn = 0;
+				$('#nav').html('<span id="num">0</span>/10');
+
 			}
+$("#txt").val('');
 
 	});
 });
