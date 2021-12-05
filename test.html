@@ -115,6 +115,12 @@ words1.push(new translation (['золото', 'колір золота', 'баг
 words1.push(new translation (['таємниця', 'секрет', 'по секрету', 'таємний', 'секретний', 'негласний'], 'secret', 1));
 words1.push(new translation (['відкритий', 'розкритися', 'розкрити', 'відкрито', 'відкривати', 'отвір', 'доступний', 'відвертий', 'м\'який'], 'open', 1));
 words1.push(new translation (['ховати', 'приховувати ', 'приховати', 'сховати', 'ховатися', 'схованка', 'шкура', 'шкура', 'шкура'], 'hide', 1));
+words1.push(new translation (['гаманець', 'сумка', 'торба'], 'wallet', 1));
+words1.push(new translation (['бульбашка, бульба', 'хвилювання', 'пузир', 'кипіти', 'пузиритися'], 'bubble', 1));
+words1.push(new translation (['камінь', 'градина', 'кісточка'], 'stone', 1));
+words1.push(new translation (['голод', 'прагнення', 'потреба', 'голодувати', 'жадати'], 'hunger', 1));
+words1.push(new translation (['цирк', 'кільце', 'арена', 'коло', 'круг', 'манеж'], 'circus', 1));
+words1.push(new translation (['сльоза', 'дірка', 'надрив', 'розрив', 'несамовитість', 'крапля','переривати', 'терзати', 'вдирати'], 'tear', 1));
 words2.push(new translation (['отримати', 'одержати', 'отримувати', 'одержувати'], 'receive', 2));
 words2.push(new translation (['заробляти', 'заробити', 'заслужити', 'отримувати'], 'earn', 2));
 words2.push(new translation (['красти', 'украсти', 'вкрадена річ', ' прослизнути', 'крадіжка', 'майно'], 'steal', 2));
@@ -141,8 +147,12 @@ words3.push(new translation (['суворий', 'важкий', 'серйозн�
 words3.push(new translation (['слабкий', 'легкий', 'ніжний', 'тихий'], 'gentle', 3));
 words3.push(new translation (['відчутний', 'відчутний', 'матеріальний', 'видимий', 'який можна осягнути', 'відчутний факт', 'реальність'], 'tangible', 3));
 words3.push(new translation (['крихкий', 'тендітний', 'неміцний'], 'fragile', 3));
+words3.push(new translation (['винагорода', 'компенсація'], 'remuneration', 3));
+words3.push(new translation (['невразливість'], 'invulnerability', 3));
+words3.push(new translation (['підприємницька', 'підприємницький'], 'entrepreneurial', 3));
+words3.push(new translation (['тисячоліття'], 'millennium', 3));
+words3.push(new translation (['нелегітимний', 'незаконний', 'незаконнонароджений', 'нелогічний', 'неправий', 'неправильний'], 'illegitimate', 3));
 words.push(words1, words2, words3);
-console.log(words);
 function test (lvl) {
 	this.right = 0;
 	this.wrong = 0;
@@ -151,7 +161,6 @@ function test (lvl) {
 		let q = [];
 		for (let i=0; i<10; i++) {
 			let num = words[lvl].length;
-			console.log(num);
 			let n = Math.floor(Math.random()*num);
 			let contains = false;
 			for (let x of q) {
@@ -167,7 +176,6 @@ function test (lvl) {
 				q[i] = n;
 			}
 		}
-		console.log(q);
 		let quest = [];
 		for (let i=0; i<10; i++) {
 			quest[i] = words[lvl][q[i]];
@@ -180,6 +188,16 @@ $('#card').click(function () {
 	$('#modal').hide();
 	let lvl = $("input[type=radio][name=dif]:checked").val();
 	console.log(lvl);
+	switch(lvl) {
+		case '0':
+			$('#card').css({"background-color" : "#17724520", "box-shadow" : "8px 8px #177245"});
+			break;
+		case '1': $('#card').css({"background-color" : "#1C6EA420", "box-shadow" : "8px 8px #1C6EA4"});
+			break;
+		case '2':
+			$('#card').css({"background-color" : "#D0411120", "box-shadow" : "8px 8px #D04111"});
+			break;
+	}
 	let x = new test(lvl);
 	$('#t').text('0');
 	$('#f').text('0');
@@ -209,25 +227,85 @@ $('#card').click(function () {
 				$('#t').text(tp);
 				fp = qn - tp + 1;
 				$('#f').text(fp);
-				if (tp < 2) {
-				$('#res').text('You are a beginner');
+				if (lvl == 0) {
+					switch (tp) {
+					case 0:
+					case 1:
+					case 2:
+						$('#res').text('It\'s not the best result, but take it easy, okey? ');
+						break;
+					case 3:
+					case 4:
+						$('#res').text('You are a beginner');
+						break;
+					case 5:
+					case 6:
+					case 7:
+						$('#res').text('Well done! Your English is good');
+						break;
+					case 8:
+					case 9:
+						$('#res').text('Would you try something more difficult?');
+						break;
+					default:
+						$('#res').text('Er... Something strange has happened');
+					}
 				}
-				else if (tp < 5) {
-				$('#res').text('Well, you know some foreign words!');
+				if (lvl == 1) {
+					switch (tp) {
+					case 0:
+					case 1:
+					case 2:
+						$('#res').text('It will be better to choose "Easy" level');
+						break;
+					case 3:
+					case 4:
+						$('#res').text('Well, you know some foreign words!');
+						break;
+					case 5:
+					case 6:
+					case 7:
+						$('#res').text('That\'s okey!');
+						break;
+					case 8:
+					case 9:
+						$('#res').text('That\'s all right! Maybe you are going to try something more difficult?');
+						break;
+					default:
+						$('#res').text('Er... Something strange has happened');
+					}
 				}
-				else if (tp < 8) {
-				$('#res').text('Well done! Your English is good');
+				if (lvl == 2) {
+					switch (tp) {
+					case 0:
+					case 1:
+					case 2:
+						$('#res').text('It will be better to choose something a bit easier');
+						break;
+					case 3:
+					case 4:
+						$('#res').text('Go on studing words!');
+						break;
+					case 5:
+					case 6:
+					case 7:
+						$('#res').text('Well done! Your English is pretty good');
+						break;
+					case 8:
+					case 9:
+						$('#res').text('That\'s great! Your English is fluent');
+						break;
+					default:
+						$('#res').text('Er... Something strange has happened');
+					}
 				}
-				else {
-				$('#res').text('That\'s great! Your English is fluent');
-				}
+
 				$('#modal').show();
 				qn = 0;
 				$('#nav').html('<span id="num">0</span>/10');
+				}
 
-			}
-$("#txt").val('');
-
+	$("#txt").val('');
 	});
 });
 </script></html>
